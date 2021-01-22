@@ -136,7 +136,10 @@ gulp.task('mkdir', function (done) {
 
 // Create an embedded version of the json worker code: a data url
 gulp.task('embed-json-worker', function (done) {
-  const workerBundleFile = './node_modules/ace-builds/src-noconflict/worker-json.js'
+  const workerBundleFile = path.join(
+    path.dirname(require.resolve("ace-builds")),
+    'worker-json.js'
+  )
   const workerEmbeddedFile = './src/js/generated/worker-json-data-url.js'
   const workerScript = String(fs.readFileSync(workerBundleFile))
 
