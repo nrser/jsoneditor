@@ -2746,7 +2746,16 @@ export class Node {
 
     // console.log(ctrlKey, keynum, event.charCode); // TODO: cleanup
     if (keynum === 13) { // Enter
-      if (target === this.dom.value) {
+      // Alternative added for MacBooks, which don't seem to have `insert` keys
+      if (editable && ctrlKey) {
+        if (ctrlKey && !shiftKey) { // Ctrl+Ins
+          this._onInsertBefore()
+          handled = true
+        } else if (ctrlKey && shiftKey) { // Ctrl+Shift+Ins
+          this._onInsertAfter()
+          handled = true
+        }
+      } else if (target === this.dom.value) {
         if (!this.editable.value || event.ctrlKey) {
           if (isUrl(this.value)) {
             window.open(this.value, '_blank', 'noopener')
